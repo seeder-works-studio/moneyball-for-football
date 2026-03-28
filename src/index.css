@@ -1,0 +1,83 @@
+:root {
+  --bg: #f4efe6;
+  --panel: #fffdf9;
+  --border: rgba(33, 52, 88, 0.14);
+  --border-strong: rgba(33, 52, 88, 0.24);
+  --text: #48536a;
+  --text-muted: #67738a;
+  --text-strong: #172338;
+  --accent: #dc582a;
+  --accent-strong: #b8441d;
+  --secondary: #2f8f83;
+  --secondary-strong: #22695f;
+  --shadow: 0 24px 60px rgba(52, 44, 34, 0.12);
+  --display: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+  --body: 'Avenir Next', 'Segoe UI', sans-serif;
+
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(220, 88, 42, 0.1), transparent 28%),
+    radial-gradient(circle at top right, rgba(47, 143, 131, 0.11), transparent 24%),
+    linear-gradient(180deg, #f9f3e8 0%, #f1ebdf 100%);
+  font-family: var(--body);
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-strong);
+  line-height: 1.02;
+}
+
+h1 {
+  font-family: var(--display);
+  font-size: clamp(2.7rem, 5vw, 5.2rem);
+  margin-bottom: 14px;
+}
+
+h2 {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+  margin-bottom: 10px;
+}
+
+a {
+  color: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
