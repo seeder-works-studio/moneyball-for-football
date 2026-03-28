@@ -194,12 +194,11 @@ function App() {
     <main className="app-shell">
       <section className="hero-panel">
         <div className="hero-copy">
-          <p className="eyebrow">Frontend-only scouting app</p>
+          <p className="eyebrow">Data-driven football recruitment</p>
           <h1>Moneyball for Football</h1>
           <p className="hero-text">
-            A static React app built from the notebook outputs in this repo. It
-            bundles curated player data, computes similarity in-browser, and
-            helps you shortlist replacements without a backend.
+            Scout talent, compare player profiles, and rank replacement options
+            across the top European leagues using a unified performance model.
           </p>
         </div>
 
@@ -408,7 +407,7 @@ function App() {
                   <ul className="diagnostic-list">
                     <li>{analysis.removedPlayers} players removed by filters</li>
                     <li>{activePreset.metrics.length} metrics used for similarity</li>
-                    <li>Data is bundled and evaluated fully client-side</li>
+                    <li>Role-specific model tuned to the active scouting profile</li>
                   </ul>
                 </div>
               </section>
