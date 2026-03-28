@@ -1,0 +1,17 @@
+{
+  "name": "Moneyball for Football",
+  "short_name": "Moneyball",
+  "description": "Frontend-only football scouting app for finding player replacements with browser-side analytics.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4efe6",
+  "theme_color": "#b8441d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
