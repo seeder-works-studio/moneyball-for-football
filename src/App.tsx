@@ -516,12 +516,18 @@ function App() {
                     <tbody>
                       {analysis.recommendations.slice(0, 10).map((candidate) => (
                         <tr key={candidate.player.id}>
-                          <td>{candidate.player.player}</td>
-                          <td>{candidate.player.squad}</td>
-                          <td>{candidate.player.age}</td>
-                          <td>{candidate.player.minutes.toLocaleString()}</td>
-                          <td>{formatLeagueName(candidate.player.comp)}</td>
-                          <td>{candidate.similarity.toFixed(1)}</td>
+                          <td data-label="Player">{candidate.player.player}</td>
+                          <td data-label="Club">{candidate.player.squad}</td>
+                          <td data-label="Age">{candidate.player.age}</td>
+                          <td data-label="Minutes">
+                            {candidate.player.minutes.toLocaleString()}
+                          </td>
+                          <td data-label="League">
+                            {formatLeagueName(candidate.player.comp)}
+                          </td>
+                          <td data-label="Similarity">
+                            {candidate.similarity.toFixed(1)}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

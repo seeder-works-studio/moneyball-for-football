@@ -234,6 +234,8 @@
 }
 
 .tag-row span {
+  display: inline-flex;
+  align-items: center;
   border-radius: 999px;
   padding: 8px 12px;
   background: rgba(17, 36, 72, 0.08);
@@ -395,12 +397,147 @@
     grid-template-columns: 1fr;
   }
 
+  .section-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
   .control-panel {
     position: static;
   }
 
   .app-shell {
     padding: 18px;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding: 14px;
+  }
+
+  .hero-copy,
+  .control-panel,
+  .section-card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .hero-stats {
+    padding: 14px;
+  }
+
+  .stat-card,
+  .profile-card {
+    padding: 16px;
+  }
+
+  .control-stack,
+  .results-panel {
+    gap: 16px;
+  }
+
+  .checkbox-row {
+    align-items: flex-start;
+  }
+
+  .checkbox-row input {
+    margin-top: 3px;
+    flex: 0 0 auto;
+  }
+
+  .segmented-control {
+    grid-template-columns: 1fr;
+  }
+
+  .tag-row span {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .table-wrap {
+    overflow: visible;
+  }
+
+  .results-table,
+  .results-table thead,
+  .results-table tbody,
+  .results-table tr,
+  .results-table th,
+  .results-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .results-table thead {
+    display: none;
+  }
+
+  .results-table tbody {
+    display: grid;
+    gap: 12px;
+  }
+
+  .results-table tr {
+    border-radius: 18px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(17, 36, 72, 0.08);
+  }
+
+  .results-table td {
+    border: 0;
+    padding: 6px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .results-table td::before {
+    content: attr(data-label);
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .preset-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-shell {
+    padding: 10px;
+  }
+
+  .hero-copy,
+  .control-panel,
+  .section-card {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .hero-text,
+  .field-note,
+  .section-note,
+  .profile-meta,
+  .diagnostic-list,
+  .progress-label {
+    font-size: 0.94rem;
+  }
+
+  .results-table tr {
+    padding: 12px;
+  }
+
+  .results-table td {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .preset-grid {
+    grid-template-columns: 1fr;
   }
 }
 
