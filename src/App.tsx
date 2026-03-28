@@ -35,6 +35,7 @@ function App() {
   const [excludeSameSquad, setExcludeSameSquad] = useState(true)
   const [onlyTopFiveVeterans, setOnlyTopFiveVeterans] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [loadProgress, setLoadProgress] = useState<number | null>(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -42,6 +43,7 @@ function App() {
 
     async function loadData() {
       setLoading(true)
+      setLoadProgress(0)
       setError('')
 
       try {
@@ -51,12 +53,60 @@ function App() {
           throw new Error(`Failed to load bundled data (${response.status})`)
         }
 
-        const nextData = (await response.json()) as ScoutingData
+        let nextData: ScoutingData
+        const contentLengthHeader = response.headers.get('content-length')
+        const totalBytes = contentLengthHeader ? Number(contentLengthHeader) : null
+
+        if (response.body) {
+          const reader = response.body.getReader()
+          const chunks: Uint8Array[] = []
+          let receivedBytes = 0
+
+          while (true) {
+            const { done, value } = await reader.read()
+
+            if (done) {
+              break
+            }
+
+            if (value) {
+              chunks.push(value)
+              receivedBytes += value.length
+
+              if (!cancelled) {
+                if (totalBytes && Number.isFinite(totalBytes) && totalBytes > 0) {
+                  setLoadProgress(
+                    Math.max(1, Math.min(99, Math.round((receivedBytes / totalBytes) * 100))),
+                  )
+                } else {
+                  setLoadProgress(null)
+                }
+              }
+            }
+          }
+
+          const merged = new Uint8Array(receivedBytes)
+          let offset = 0
+
+          for (const chunk of chunks) {
+            merged.set(chunk, offset)
+            offset += chunk.length
+          }
+
+          const decoded = new TextDecoder().decode(merged)
+          nextData = JSON.parse(decoded) as ScoutingData
+        } else {
+          nextData = (await response.json()) as ScoutingData
+          if (!cancelled) {
+            setLoadProgress(null)
+          }
+        }
 
         if (cancelled) {
           return
         }
 
+        setLoadProgress(100)
         setData(nextData)
       } catch (nextError) {
         if (!cancelled) {
@@ -190,6 +240,9 @@ function App() {
     }))
   }, [displaySpotlightMetrics, topCandidate])
 
+  const progressLabel =
+    loadProgress === null ? 'Preparing dataset...' : `Loading dataset... ${loadProgress}%`
+
   return (
     <main className="app-shell">
       <section className="hero-panel">
@@ -205,22 +258,46 @@ function App() {
         <div className="hero-stats" aria-label="Application coverage">
           <div className="stat-card">
             <span className="stat-value">
-              {formatCompactNumber(data?.meta.totalPlayers ?? 0)}
+              {loading ? '...' : formatCompactNumber(data?.meta.totalPlayers ?? 0)}
             </span>
             <span className="stat-label">Bundled players</span>
           </div>
           <div className="stat-card">
-            <span className="stat-value">2021-2024</span>
+            <span className="stat-value">{loading ? '...' : '2021-2024'}</span>
             <span className="stat-label">Aggregate data model</span>
           </div>
           <div className="stat-card">
             <span className="stat-value">
-              {datasetKey === 'outfield' ? 'Outfield' : 'Goalkeepers'}
+              {loading ? '...' : datasetKey === 'outfield' ? 'Outfield' : 'Goalkeepers'}
             </span>
             <span className="stat-label">Active cohort</span>
           </div>
         </div>
       </section>
+
+      {loading ? (
+        <section className="section-card loading-banner" aria-live="polite">
+          <div className="loading-copy">
+            <p className="eyebrow">Loading</p>
+            <h2>Preparing the scouting dataset</h2>
+            <p>
+              The player database is loading now. Shortlists and comparisons will
+              appear as soon as the bundle is ready.
+            </p>
+          </div>
+          <div className="progress-shell">
+            <div className="progress-track">
+              <div
+                className={`progress-fill ${loadProgress === null ? 'indeterminate' : ''}`}
+                style={
+                  loadProgress === null ? undefined : { width: `${loadProgress}%` }
+                }
+              />
+            </div>
+            <span className="progress-label">{progressLabel}</span>
+          </div>
+        </section>
+      ) : null}
 
       <section className="layout-grid">
         <aside className="control-panel">
@@ -229,7 +306,7 @@ function App() {
             <h2>Find a replacement</h2>
           </div>
 
-          <div className="control-stack">
+            <div className="control-stack">
             <label className="field">
               <span>Dataset</span>
               <div className="segmented-control">

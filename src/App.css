@@ -81,6 +81,50 @@
   align-items: start;
 }
 
+.loading-banner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.9fr);
+  gap: 24px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.loading-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.progress-shell {
+  display: grid;
+  gap: 10px;
+}
+
+.progress-track {
+  position: relative;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(23, 35, 56, 0.08);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent-strong), var(--accent), var(--secondary));
+  transition: width 180ms ease;
+}
+
+.progress-fill.indeterminate {
+  width: 35%;
+  animation: slide-progress 1.1s ease-in-out infinite;
+}
+
+.progress-label {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
 .control-panel {
   position: sticky;
   top: 24px;
@@ -346,7 +390,8 @@
   .layout-grid,
   .hero-panel,
   .profile-grid,
-  .dual-pane {
+  .dual-pane,
+  .loading-banner {
     grid-template-columns: 1fr;
   }
 
@@ -356,5 +401,15 @@
 
   .app-shell {
     padding: 18px;
+  }
+}
+
+@keyframes slide-progress {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  100% {
+    transform: translateX(320%);
   }
 }
