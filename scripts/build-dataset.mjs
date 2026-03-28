@@ -17,6 +17,18 @@ const goalkeeperSource = path.join(
 )
 const outputPath = path.join(appDir, 'public', 'data', 'scouting-data.json')
 
+if (!fs.existsSync(outfieldSource) || !fs.existsSync(goalkeeperSource)) {
+  if (fs.existsSync(outputPath)) {
+    console.log(
+      `Source CSVs not found. Reusing committed static bundle at ${outputPath}`,
+    )
+    process.exit(0)
+  }
+
+  console.error('Source CSVs not found and no bundled scouting-data.json is available.')
+  process.exit(1)
+}
+
 const METRIC_DEFINITIONS = {
   Goals_per90: { label: 'Goals / 90', format: 'number' },
   'G+A_per90': { label: 'Goals + assists / 90', format: 'number' },
